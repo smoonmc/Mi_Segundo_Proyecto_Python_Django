@@ -1,0 +1,30 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+   {{title}}
+{% endblock %}
+
+
+{% block content %}
+   <h1> {{title}} </h1>
+
+   {{register_form.error}}  {% comment %} Esto es para indicar si aparecen errores en el formulario{% endcomment %} 
+
+   <form method="POST" action="">
+       {% csrf_token %}
+
+       {% comment %} # se comenta para que no muestre toda la información por defecto que trear el form de django
+          {{register_form.as_p}}
+       {% endcomment %}
+
+        {% for campo in register_form %}
+          <label> {{campo.label}} </label>  {% comment %} aqui se muestra la etiqueta del campo {% endcomment %}
+           {{campo}}        {% comment %} aqui se muestra el campo en si {% endcomment %} 
+        {% endfor %}
+
+       <input type="submit" value="Registrarse" />
+    
+   </form>
+
+
+{% endblock %}

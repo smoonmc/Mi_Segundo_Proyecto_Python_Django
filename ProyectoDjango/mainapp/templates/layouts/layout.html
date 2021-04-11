@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <!--el utf-8 es para que reconozca caracteres especiales como la Ñ -->
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+
+</head>
+
+<body>
+
+    <!-- Cabecera de la página-->
+    <header>
+        <div id="logotipo">
+             <img src="{% static 'imagenes/logo.png' %}" />
+            <h1>Proyecto con Django</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'index' %}">Inicio</a>
+            </li>
+
+            {% if user.email %}   
+
+             <li>
+                <a href="{% url 'list_articles' %}">Categorías</a>
+                <ul>
+                   {% for category in categories%}
+                      <li>
+                        <a href="{% url 'category' category.0 %}">{{category.1}}</a>
+                      </li>
+                   {%endfor%}
+      <!--      <li>-->
+                </ul>
+             </li>  
+
+             {% for elemento in pages%}
+                <li>  
+                  <a href="{% url 'page' elemento.2 %}"> {{elemento.1}} </a>
+                </li>
+             {% endfor %}
+
+             <li>
+                <a href="{% url 'logout' %}">Cerrar sesión</a>
+             </li>    
+
+            {% else %}
+                <li>
+                 <a href="{% url 'register' %}">Registro</a>
+                </li>  
+
+                <li>
+                 <a href="{% url 'login' %}">Login</a>
+                </li>  
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="barra">
+          <span class="esquina-izquierda"></span>
+          <span class="relleno-barra"></span>
+          <span class="esquina-derecha"></span>
+    </div>
+
+    <div id="content">
+
+        <div class="box">
+         <!-- <h2 class="title"> Quitar </h2>-->
+          {% block content %}
+          <strong>Contenido del bloque original!!!</strong>
+          {% endblock %}
+        </div>
+        
+    </div>
+
+    <footer>
+        Master en Python &copy; Cecilia Reyes - {% now "d/m/Y" %}
+    </footer>
+
+</body>
+
+</html>

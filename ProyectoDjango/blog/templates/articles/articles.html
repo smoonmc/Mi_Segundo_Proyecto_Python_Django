@@ -1,0 +1,52 @@
+
+{% for elemento in articles %}
+    <article class="article-item"> 
+ 
+         {% if elemento.image != 'null' and  elemento.image.url|length >= 1 %}
+            
+           <div class="image">
+              <img src="{{elemento.image.url}}"/>
+           </div>        
+         {% endif %}
+
+         <div class="data">
+            <h2> 
+              <a href="{% url 'article' elemento.id %}" > 
+                 {{elemento.title}} 
+              </a>
+            </h2>
+            <p>
+              {% for category in elemento.catgories.all%}
+
+                  <a href= "{% url 'category' category.id %}" > {{category.name}} </a> 
+
+                  <!--para colocar el guion si tienen mas de una categoria -->
+                  {% if forloop.counter < elemento.catgories.all|length %}
+                      {{'-'}}
+                  {% endif %}
+
+              {%endfor%}
+            </p>
+            <span class="date"> 
+               {{elemento.user.first_name}} {{elemento.user.last_name}}
+               | 
+               {{elemento.created_at}}
+            </span>  <!--Para ver la fecha-->
+          
+
+            {% if elemento.public %}
+                <strong>Publicado</strong>
+            {% else %}
+                <strong>Privado</strong>
+            {%endif%}
+            
+            <p>  
+              {{elemento.content|safe}}
+            <p>
+          </div>
+         
+         <div class="clearfix"></div>
+          
+    </article>
+
+{% endfor %}
